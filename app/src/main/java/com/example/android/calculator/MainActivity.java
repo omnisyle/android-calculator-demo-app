@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     int total;
     String prevOp = "";
     boolean initState = true;
+    String prevBtnType = "";
 
     TextView result;
     TextView operation_indicator;
@@ -42,6 +43,23 @@ public class MainActivity extends AppCompatActivity {
         addNum(num);
     }
 
+    //all clear
+    public void reset() {
+        prevNum = 0;
+        total= 0 ;
+        prevOp = "";
+        initState = true;
+        prevBtnType = "";
+        result.setText("0");
+        operation_indicator.setText("");
+    }
+
+    // clear the number
+    public void clear() {
+        initState = true;
+        result.setText("0");
+    }
+
     /*
     * handle math operations
     * */
@@ -50,12 +68,22 @@ public class MainActivity extends AppCompatActivity {
         //get text of this button
         Button operator_btn = (Button) view;
         String operation_name = operator_btn.getText().toString();
-
+        if (operation_name.equals("AC")) {
+            reset();
+            return;
+        }
+        if(operation_name.equals("C")) {
+            clear();
+            return;
+        }
         //indicate operation being performed
         operation_indicator.setText(operation_name);
-
+        int currentNumber = 0;
         //get current number
-        int currentNumber = Integer.parseInt(result.getText().toString());
+        if (prevBtnType.equals("number")) {
+             currentNumber = Integer.parseInt(result.getText().toString());
+        }
+
         //Log.d("operation currentNumb", String.valueOf(currentNumber));
         //reset text edit back to initial state to override old value
         initState = true;
@@ -70,8 +98,10 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("total after op+", String.valueOf(total));
             prevNum = total;
         }
+
         result.setText(String.valueOf(total));
         prevOp = operation_name;
+        prevBtnType = "operation";
     }
 
     public int handleOperations(String opName, int numb1, int numb2) {
@@ -82,7 +112,10 @@ public class MainActivity extends AppCompatActivity {
             case "-":
                 return numb1 - numb2;
             case "/":
-                return numb1/numb2;
+                if(numb2 != 0) {
+                    return numb1/numb2;
+                }
+                return 0;
             case "*":
                 return numb1*numb2;
             case "=":
@@ -105,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
             currentTxt += num;
         }
         result.setText(currentTxt);
-
-
+        prevBtnType = "number";
     }
 
 }

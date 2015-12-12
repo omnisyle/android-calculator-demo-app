@@ -70,7 +70,7 @@
             android:text="AC"
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/ac_btn" />
         <Button
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:text="C"
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/clear_btn" />
 
     </LinearLayout>
