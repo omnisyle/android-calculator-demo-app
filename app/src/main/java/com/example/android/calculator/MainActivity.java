@@ -7,23 +7,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.HashMap;
-
 
 public class MainActivity extends AppCompatActivity {
 
+    int prevNum;
+    int total;
+    String prevOp = "";
+    boolean initState = true;
 
-    int tempNumb;
-    // initial state of the calculator
-    boolean reset = true;
     TextView result;
+    TextView operation_indicator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // get result textview
+
+        //get views
         result = (TextView) findViewById(R.id.result_txtView);
+        operation_indicator = (TextView) findViewById(R.id.operation_txtView);
+        operation_indicator.setText("");
+        //set initial number
+        prevNum = Integer.parseInt(result.getText().toString());
 
     }
 
@@ -38,59 +44,62 @@ public class MainActivity extends AppCompatActivity {
 
     /*
     * handle math operations
-    * operations = ['add_btn', 'minus_btn', 'div_btn', 'mult_btn']
     * */
     public void operationBtnPressed(View view ) {
-        String operation_name = getResources().getResourceEntryName(view.getId());
 
-        int currentNum = Integer.parseInt(result.getText().toString());
-        if(tempNumb == 0) {
-            tempNumb = currentNum;
+        //get text of this button
+        Button operator_btn = (Button) view;
+        String operation_name = operator_btn.getText().toString();
+
+        //indicate operation being performed
+        operation_indicator.setText(operation_name);
+
+        //get current number
+        int currentNumber = Integer.parseInt(result.getText().toString());
+
+        //reset text edit back to initial state to override old value
+        initState = true;
+
+        if(operation_name.equals("=")) {
+            Log.d("operation prevOp", prevOp);
+            total = handleOperations(prevOp, prevNum, currentNumber);
+            result.setText(String.valueOf(total));
         }
-        switch (operation_name) {
-            case "add_btn":
+        prevNum = currentNumber;
+        prevOp = operation_name;
+    }
 
-                break;
-            case "minus_btn":
-                break;
-            case "div_btn":
-                break;
-            case "mult_btn":
-                break;
+    public int handleOperations(String opName, int numb1, int numb2) {
+
+        switch (opName) {
+            case "+":
+                return numb1 + numb2;
+            case "-":
+                return numb1 - numb2;
+            case "/":
+                return numb1/numb2;
+            case "*":
+                return numb1*numb2;
             default:
-                break;
+                return numb2;
         }
-    }
-
-    public int add(int a, int b) {
-        return a+b;
-    }
-
-    public int mult(int a, int b) {
-        return a*b;
-    }
-
-    public int div(int a, int b) {
-        return a/b;
-    }
-
-    public int subtract(int a, int b) {
-
-        return a-b;
     }
 
     /*
     * Append number to view when number button pressed
+    * @param num is the number being pressed
     * */
     public void addNum(String num) {
         String currentTxt = result.getText().toString();
-        Log.d("Calculator current text", currentTxt);
-        if (currentTxt.equals("0")) {
-            result.setText(num);
+        if (initState) {
+            currentTxt = num;
+            initState = false;
         } else {
             currentTxt += num;
-            result.setText(currentTxt);
         }
+        result.setText(currentTxt);
+
+
     }
 
 }

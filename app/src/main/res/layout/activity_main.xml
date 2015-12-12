@@ -127,7 +127,7 @@
             android:text="/"
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/div_btn" />
 
     </LinearLayout>
@@ -175,7 +175,7 @@
             android:text="*"
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/mult_btn" />
 
     </LinearLayout>
@@ -222,7 +222,7 @@
             android:text="-"
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/minus_btn" />
 
     </LinearLayout>
@@ -259,7 +259,7 @@
             android:text="="
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/eql_btn" />
         <Button
             android:layout_width="match_parent"
@@ -269,7 +269,7 @@
             android:text="+"
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="operationBtnPressed"
             android:id="@+id/add_btn" />
 
     </LinearLayout>
