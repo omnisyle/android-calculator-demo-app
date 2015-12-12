@@ -56,16 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
         //get current number
         int currentNumber = Integer.parseInt(result.getText().toString());
-
+        //Log.d("operation currentNumb", String.valueOf(currentNumber));
         //reset text edit back to initial state to override old value
         initState = true;
-
+        //Log.d("total before op", String.valueOf(total));
         if(operation_name.equals("=")) {
-            Log.d("operation prevOp", prevOp);
+            //Log.d("operation prevOp", prevOp);
             total = handleOperations(prevOp, prevNum, currentNumber);
-            result.setText(String.valueOf(total));
+            //Log.d("total after op=", String.valueOf(total));
+            prevNum = currentNumber;
+        } else {
+            total = handleOperations(prevOp, total, currentNumber);
+            //Log.d("total after op+", String.valueOf(total));
+            prevNum = total;
         }
-        prevNum = currentNumber;
+        result.setText(String.valueOf(total));
         prevOp = operation_name;
     }
 
@@ -80,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 return numb1/numb2;
             case "*":
                 return numb1*numb2;
+            case "=":
+                return total;
             default:
                 return numb2;
         }
