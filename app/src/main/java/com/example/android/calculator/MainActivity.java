@@ -85,6 +85,20 @@ public class MainActivity extends AppCompatActivity {
             clear();
             return;
         }
+        if (operation_name.equals("+/-")) {
+            double negTemp = Double.parseDouble(result.getText().toString()) * (-1);
+            result.setText(String.valueOf(negTemp));
+            prevNum = negTemp;
+            return;
+        }
+
+        if (operation_name.equals("%")) {
+            double percentTemp = Double.parseDouble(result.getText().toString()) / (100);
+            result.setText(String.valueOf(percentTemp));
+            prevNum = percentTemp;
+            return;
+        }
+
         //indicate operation being performed
         operation_indicator.setText(operation_name);
         double currentNumber = 0;
@@ -103,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("total after op=", String.valueOf(total));
             prevNum = currentNumber;
         } else {
+
             total = handleOperations(prevOp, total, currentNumber);
             //Log.d("total after op+", String.valueOf(total));
             prevNum = total;
@@ -112,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
         result.setText(Double.toString(total));
         prevOp = operation_name;
         prevBtnType = "operation";
+
     }
+
 
     public double handleOperations(String opName, double numb1, double numb2) {
 
@@ -121,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 return numb1 + numb2;
             case "-":
                 return numb1 - numb2;
+            case "+/-":
+                return numb1*(-1);
             case "/":
                 if (numb2 != 0) {
                     return numb1 / numb2;
@@ -128,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
             case "*":
                 return numb1 * numb2;
+            case "%":
+                return numb1 /100;
             case "=":
                 return total;
             default:

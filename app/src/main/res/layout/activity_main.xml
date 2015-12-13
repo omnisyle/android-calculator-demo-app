@@ -48,6 +48,7 @@
             android:background="@android:color/black"
             android:layout_weight="1"
             android:text="+/-"
+            android:onClick="operationBtnPressed"
             android:textColor="#FFF"
             android:textSize="32sp"
 
@@ -57,6 +58,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/black"
             android:layout_weight="1"
+            android:onClick="operationBtnPressed"
             android:text="%"
             android:textColor="#FFF"
             android:textSize="32sp"
