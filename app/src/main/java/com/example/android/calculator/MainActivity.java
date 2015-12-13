@@ -2,7 +2,6 @@ package com.example.android.calculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,8 +9,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    int prevNum;
-    int total;
+    double prevNum;
+    double total;
     String prevOp = "";
     boolean initState = true;
     String prevBtnType = "";
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         operation_indicator = (TextView) findViewById(R.id.operation_txtView);
         operation_indicator.setText("");
         //set initial number
-        prevNum = Integer.parseInt(result.getText().toString());
+        prevNum = Double.parseDouble(result.getText().toString());
 
     }
 
@@ -78,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
         }
         //indicate operation being performed
         operation_indicator.setText(operation_name);
-        int currentNumber = 0;
+        double currentNumber = 0;
         //get current number
         if (prevBtnType.equals("number")) {
-             currentNumber = Integer.parseInt(result.getText().toString());
+             currentNumber = Double.parseDouble(result.getText().toString());
         }
 
         //Log.d("operation currentNumb", String.valueOf(currentNumber));
@@ -99,12 +98,13 @@ public class MainActivity extends AppCompatActivity {
             prevNum = total;
         }
 
-        result.setText(String.valueOf(total));
+        //set result
+        result.setText(Double.toString(total));
         prevOp = operation_name;
         prevBtnType = "operation";
     }
 
-    public int handleOperations(String opName, int numb1, int numb2) {
+    public double handleOperations(String opName, double numb1, double numb2) {
 
         switch (opName) {
             case "+":
