@@ -239,7 +239,7 @@
             android:text="."
             android:textColor="#FFF"
             android:textSize="32sp"
-
+            android:onClick="numBtnPressed"
             android:id="@+id/dot_btn" />
         <Button
             android:layout_width="match_parent"

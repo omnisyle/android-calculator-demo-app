@@ -1,10 +1,17 @@
 package com.example.android.calculator;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.text.DecimalFormat;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -14,9 +21,11 @@ public class MainActivity extends AppCompatActivity {
     String prevOp = "";
     boolean initState = true;
     String prevBtnType = "";
-
+    String DOUBLE_PATTERN = "^(\\d*\\.\\d*)";
+    DecimalFormat df = new DecimalFormat("#.####");
     TextView result;
     TextView operation_indicator;
+
 
 
     @Override
@@ -30,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         operation_indicator.setText("");
         //set initial number
         prevNum = Double.parseDouble(result.getText().toString());
+
 
     }
 
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     //all clear
     public void reset() {
         prevNum = 0;
-        total= 0 ;
+        total = 0;
         prevOp = "";
         initState = true;
         prevBtnType = "";
@@ -62,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     /*
     * handle math operations
     * */
-    public void operationBtnPressed(View view ) {
+    public void operationBtnPressed(View view) {
 
         //get text of this button
         Button operator_btn = (Button) view;
@@ -71,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             reset();
             return;
         }
-        if(operation_name.equals("C")) {
+        if (operation_name.equals("C")) {
             clear();
             return;
         }
@@ -80,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
         double currentNumber = 0;
         //get current number
         if (prevBtnType.equals("number")) {
-             currentNumber = Double.parseDouble(result.getText().toString());
+            currentNumber = Double.parseDouble(result.getText().toString());
         }
 
         //Log.d("operation currentNumb", String.valueOf(currentNumber));
         //reset text edit back to initial state to override old value
         initState = true;
         //Log.d("total before op", String.valueOf(total));
-        if(operation_name.equals("=")) {
+        if (operation_name.equals("=")) {
             //Log.d("operation prevOp", prevOp);
             total = handleOperations(prevOp, prevNum, currentNumber);
             //Log.d("total after op=", String.valueOf(total));
@@ -112,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
             case "-":
                 return numb1 - numb2;
             case "/":
-                if(numb2 != 0) {
-                    return numb1/numb2;
+                if (numb2 != 0) {
+                    return numb1 / numb2;
                 }
                 return 0;
             case "*":
-                return numb1*numb2;
+                return numb1 * numb2;
             case "=":
                 return total;
             default:
@@ -130,15 +140,26 @@ public class MainActivity extends AppCompatActivity {
     * @param num is the number being pressed
     * */
     public void addNum(String num) {
+
         String currentTxt = result.getText().toString();
-        if (initState) {
-            currentTxt = num;
-            initState = false;
+        boolean isDouble = currentTxt.matches(DOUBLE_PATTERN);
+        if (num.equals(".")) {
+            if (!isDouble && !initState) {
+                currentTxt += num;
+            }
         } else {
-            currentTxt += num;
+            if (initState) {
+                currentTxt = num;
+                initState = false;
+            } else {
+
+                currentTxt += num;
+            }
         }
+
         result.setText(currentTxt);
         prevBtnType = "number";
     }
+
 
 }
